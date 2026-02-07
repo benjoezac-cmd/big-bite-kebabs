@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Bite Kebabs - Voice-Powered Ordering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff6b35, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .phone-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .phone-link:hover {
+            color: #ff8e53;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .app-main {
+            padding-top: 64px;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+            overflow: hidden;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 142, 83, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #ff8e53;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 12vw, 7rem);
+            line-height: 0.9;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .kebabs-text {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8e53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.2s ease-out 0.6s both;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* Buttons */
+        .voice-order-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8e53 100%);
+            border: none;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeInUp 1.4s ease-out 0.8s both;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .voice-order-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .btn-subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1.6s ease-out 1s both;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Popular Items */
+        .popular-section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .popular-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .popular-card:nth-child(1) { animation-delay: 0s; }
+        .popular-card:nth-child(2) { animation-delay: 0.1s; }
+        .popular-card:nth-child(3) { animation-delay: 0.2s; }
+        .popular-card:nth-child(4) { animation-delay: 0.3s; }
+
+        .popular-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 107, 53, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: #ff6b35;
+        }
+
+        .card-description {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            margin: 4rem 0;
+            padding: 3rem 0;
+            background: rgba(255, 107, 53, 0.03);
+            border-radius: 20px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ff8e53);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .step-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .step-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Voice Overlay */
+        .voice-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .voice-overlay.active {
+            display: flex;
+        }
+
+        .voice-modal {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .voice-animation {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ff6b35;
+            border-radius: 50%;
+            animation: pulse 2s ease-out infinite;
+        }
+
+        .pulse-ring:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .pulse-ring:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .mic-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff6b35;
+            font-size: 48px;
+        }
+
+        .voice-status h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .voice-status p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .voice-tips {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tip {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .end-call-btn {
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .end-call-btn:hover {
+            background: rgba(255, 59, 59, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Demo Notice */
+        .demo-notice {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #60a5fa;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .popular-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">Big Bite Kebabs</div>
+            <a href="tel:+61296094752" class="phone-link">
+                <span>📞</span>
+                <span>+61 2 9609 4752</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <div class="page-container">
+            <!-- Demo Notice -->
+            <div class="demo-notice">
+                🎬 <strong>Interactive Demo</strong> - This is a visual demonstration of the website. In production, clicking "Order by Voice" starts a real AI conversation!
+            </div>
+
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-pattern"></div>
+                <div class="hero-content">
+                    <div class="logo-badge">
+                        <span>⭐</span>
+                        <span>4.6</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Big Bite<br>
+                        <span class="kebabs-text">Kebabs</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">Turkish / Halal Kebabs</p>
+                    
+                    <div class="hero-info">
+                        <div class="info-item">
+                            <span>📍</span>
+                            <span>Crossroads Homemaker Centre</span>
+                        </div>
+                        <div class="info-item">
+                            <span>🕒</span>
+                            <span>10 AM - 9 PM Daily</span>
+                        </div>
+                    </div>
+
+                    <!-- Main CTA - Voice Ordering -->
+                    <button class="voice-order-btn" onclick="startVoiceDemo()">
+                        <div class="btn-content">
+                            <span>🎤</span>
+                            <span>Order by Voice</span>
+                        </div>
+                        <div class="btn-subtitle">AI-powered ordering in seconds</div>
+                    </button>
+
+                    <!-- Secondary CTA -->
+                    <button class="secondary-btn" onclick="scrollToMenu()">
+                        <span>📋</span>
+                        <span>View Menu</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Popular Items -->
+            <div class="popular-section" id="menu">
+                <h2 class="section-title">Popular Items</h2>
+                <div class="popular-grid">
+                    <div class="popular-card">
+                        <div class="card-header">
+                            <h3>Mix Kebab Roll</h3>
+                            <span class="price">$20.00</span>
+                        </div>
+                        <p class="card-description">Traditional Turkish kebab with mixed meats</p>
+                    </div>
+
+                    <div class="popular-card">
+                        <div class="card-header">
+                            <h3>Mix Snack Pack</h3>
+                            <span class="price">$19.00</span>
+                        </div>
+                        <p class="card-description">Chips topped with mixed meats and sauce</p>
+                    </div>
+
+                    <div class="popular-card">
+                        <div class="card-header">
+                            <h3>Hungry Attack Meal</h3>
+                            <span class="price">$34.00</span>
+                        </div>
+                        <p class="card-description">Large combo meal for the hungry</p>
+                    </div>
+
+                    <div class="popular-card">
+                        <div class="card-header">
+                            <h3>Mix Shish Plate</h3>
+                            <span class="price">$47.00</span>
+                        </div>
+                        <p class="card-description">Premium mixed shish kebab plate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="how-it-works">
+                <h2 class="section-title">How Voice Ordering Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Tap "Order by Voice"</h3>
+                        <p>Allow microphone access when prompted</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Tell our AI what you want</h3>
+                        <p>Say your order naturally - our AI understands</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Confirm & collect</h3>
+                        <p>Review your order and choose pickup or delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Voice Call Overlay -->
+    <div class="voice-overlay" id="voiceOverlay">
+        <div class="voice-modal">
+            <div class="voice-status">
+                <div class="voice-animation">
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <div class="mic-icon">🎤</div>
+                </div>
+                <h2>AI Assistant is Listening</h2>
+                <p>Speak naturally - tell us what you'd like to order</p>
+                
+                <div class="voice-tips">
+                    <div class="tip">Try: "I'd like two mix kebab rolls"</div>
+                    <div class="tip">Try: "One snack pack for pickup"</div>
+                </div>
+            </div>
+
+            <button class="end-call-btn" onclick="endVoiceDemo()">
+                <span>🔇</span>
+                <span>End Call</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function startVoiceDemo() {
+            document.getElementById('voiceOverlay').classList.add('active');
+        }
+
+        function endVoiceDemo() {
+            document.getElementById('voiceOverlay').classList.remove('active');
+        }
+
+        function scrollToMenu() {
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Close overlay on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                endVoiceDemo();
+            }
+        });
+    </script>
+</body>
+</html>
